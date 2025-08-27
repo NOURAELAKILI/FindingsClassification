@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classification des Findings - JESA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f7;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 50px;
+            vertical-align: middle;
+            margin-right: 15px;
+        }
+        header h1 {
+            display: inline;
+            font-size: 28px;
+            vertical-align: middle;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 50px;
+        }
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        .card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #004080;
+        }
+        input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        input[type="submit"], button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+        }
+        .result {
+            background-color: #d9f2ff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='jesa.png') }}" alt="JESA">
+        <h1>Classification des Findings</h1>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Classifier un fichier</h2>
+            <form action="/" method="POST" enctype="multipart/form-data">
+                <label>Sélectionnez un fichier Excel ou CSV :</label><br><br>
+                <input type="file" name="file" required><br><br>
+                <input type="submit" value="Lancer la classification">
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Classifier une phrase</h2>
+            <form action="/predict" method="POST">
+                <label>Entrez une description :</label><br>
+                <textarea name="description" rows="5" placeholder="Tapez ici..."></textarea><br>
+                <button type="submit">Classifier</button>
+            </form>
+            {% if prediction %}
+            <div class="result">
+                <strong>Résultat :</strong><br>
+                Level 1 : {{ prediction.level1 }}<br>
+                Level 2 : {{ prediction.level2 }}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
